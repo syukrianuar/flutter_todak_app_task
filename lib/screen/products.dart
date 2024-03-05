@@ -23,6 +23,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _loadItems();
   }
 
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
+
   void _loadItems() async {
     final url = Uri.parse('https://dummyjson.com/products');
     final response = await http.get(url);
@@ -41,6 +46,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
             thumbnail: item['thumbnail'],
             stock: item['stock']))
         .toList();
+
+    if (!mounted) return;
 
     setState(() {
       _products = loadedItems;
