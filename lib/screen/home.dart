@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todak_app_task/widget/list_items.dart';
+import 'package:todak_app_task/screen/products.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -14,6 +14,6 @@ class Home extends StatelessWidget {
             'eShop',
           ),
         ),
-        body: const ListItems());
+        body: const ProductsScreen());
   }
 }

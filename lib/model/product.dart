@@ -1,7 +1,7 @@
 import 'package:todak_app_task/model/category.dart';
 
-class ProductItem {
-  const ProductItem(
+class Product {
+  const Product(
       {required this.id,
       required this.title,
       required this.description,
