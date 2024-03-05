@@ -6,14 +6,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text(
-            'eShop',
-          ),
-        ),
-        body: const ProductsScreen());
+    return ProductsScreen();
   }
 }
