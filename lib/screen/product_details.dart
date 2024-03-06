@@ -12,6 +12,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     void _buyNowModal() {
       showModalBottomSheet(
+          isScrollControlled: true,
           context: context,
           builder: (ctx) => BuyNowModalItem(product: product));
     }
