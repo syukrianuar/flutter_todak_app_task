@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:todak_app_task/screen/addresses.dart';
 
 class ProfilesScreen extends StatelessWidget {
   const ProfilesScreen({super.key});
@@ -20,87 +21,64 @@ class ProfilesScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 1.h,
+            height: 2.h,
+          ),
+          Text(
+            'Name Bin Nama',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          SizedBox(
+            height: 2.h,
           ),
           Padding(
             padding:
-                EdgeInsets.symmetric(vertical: Adaptive.h(1), horizontal: 8.w),
+                EdgeInsets.symmetric(vertical: Adaptive.h(1), horizontal: 5.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProfileViewDetail(
-                  pLabel: 'Identity Number',
-                  pDesc: 'abc',
-                ),
-                // SizedBox(
-                //   height: 1.h,
+                // ProfileViewDetail(
+                //   pLabel: 'Identity Number',
+                //   pDesc: 'abc',
                 // ),
-                ProfileViewDetail(
-                  pLabel: 'Email',
-                  pDesc: 'def',
-                ),
+                // // SizedBox(
+                // //   height: 1.h,
+                // // ),
+                // ProfileViewDetail(
+                //   pLabel: 'Email',
+                //   pDesc: 'def',
+                // ),
 
-                ProfileViewDetail(pLabel: 'Mobile Number', pDesc: 'ghi'),
+                // ProfileViewDetail(pLabel: 'Mobile Number', pDesc: 'ghi'),
 
                 ProfileViewDetail(pLabel: 'Address', pDesc: 'jkl'),
 
-                ProfileViewDetail(pLabel: "City", pDesc: 'mno'),
-                ProfileViewDetail(pLabel: 'Postcode', pDesc: 'pqr'),
-                ProfileViewDetail(pLabel: 'State', pDesc: 'stu'),
-                // ProfileEditForm(),
+                // ProfileViewDetail(pLabel: "City", pDesc: 'mno'),
+                // ProfileViewDetail(pLabel: 'Postcode', pDesc: 'pqr'),
+                // ProfileViewDetail(pLabel: 'State', pDesc: 'stu'),
+                // // ProfileEditForm(),
 
                 SizedBox(
-                  height: 3.h,
+                  height: 20.h,
                 ),
                 Align(
                   child: SizedBox(
                     width: Adaptive.w(50),
                     height: 6.h,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 6, 41, 70),
+                        backgroundColor: Color.fromARGB(255, 223, 95, 49),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () async {
-                        // await Get.to(() => EditProfile(
-                        //           avatarUrl:
-                        //               snapshot.data['avatar_url'],
-                        //           name: snapshot.data['name'] ?? '',
-                        //           email: snapshot.data['email'] ?? '',
-                        //           nric: snapshot.data['nric'] ?? '',
-                        //           address:
-                        //               snapshot.data['address'] ?? '',
-                        //           city: snapshot.data['city'] ?? '',
-                        //           postal:
-                        //               snapshot.data['postcode'] ?? '',
-                        //           state: snapshot.data['state'] ?? '',
-                        //         ))!
-                        //     .then((value) {
-                        //   refresh();
-                        //   // refresh();
-                        // });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'EDIT',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            width: Adaptive.w(4),
-                          ),
-                          const Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ],
+                      onPressed: () async {},
+                      icon: Icon(Icons.logout),
+                      label: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -123,7 +101,23 @@ class ProfileViewDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListTile(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (ctx) => AddressesScreen()));
+      },
+      title: Text(
+        pLabel,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 6, 41, 70),
+        ),
+      ),
+      trailing: Icon(Icons.navigate_next),
+    );
+
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
