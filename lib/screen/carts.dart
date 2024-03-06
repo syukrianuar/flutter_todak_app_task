@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todak_app_task/model/order.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:todak_app_task/model/cart.dart';
 import 'package:todak_app_task/widget/cart_lists.dart';
 
-List<Order> listOrders = [];
+List<Cart> listCarts = [];
 
 class CartsScreen extends StatefulWidget {
   const CartsScreen({super.key});
@@ -14,13 +15,13 @@ class CartsScreen extends StatefulWidget {
 class _CartsScreenState extends State<CartsScreen> {
   // List<OrderBucket> buckets = [];
 
-  double get maxTotalOrders {
-    double maxTotalOrder = 0;
+  double get maxTotalCarts {
+    double maxTotalCart = 0;
 
-    for (final order in listOrders) {
-      maxTotalOrder += order.calculatedPrice;
+    for (final cart in listCarts) {
+      maxTotalCart += cart.calculatedPrice;
     }
-    return maxTotalOrder;
+    return maxTotalCart;
   }
 
   @override
@@ -30,9 +31,9 @@ class _CartsScreenState extends State<CartsScreen> {
           'No item in the cart for now. Please add item from the list first.'),
     );
 
-    if (listOrders.isNotEmpty) {
+    if (listCarts.isNotEmpty) {
       mainContent = CartLists(
-        orders: listOrders,
+        carts: listCarts,
         // onRemoveOrder: ,
         //   expenses: _registeredExpenses, onRemoveExpense: _removeExpense
       );
@@ -44,7 +45,20 @@ class _CartsScreenState extends State<CartsScreen> {
       ),
       body: mainContent,
       persistentFooterButtons: [
-        Text('Total : RM ${maxTotalOrders.toStringAsFixed(2)}')
+        Row(
+          children: [
+            Text('Total : '),
+            Text(
+              'RM ${maxTotalCarts.toStringAsFixed(2)}',
+              style: TextStyle(fontSize: 17, color: Colors.blue),
+            ),
+            Spacer(),
+            ElevatedButton(onPressed: () {}, child: Text('Check Out'))
+          ],
+        ),
+        // SizedBox(
+        //   width: Adaptive.sw(39),
+        // ),
       ],
     );
   }

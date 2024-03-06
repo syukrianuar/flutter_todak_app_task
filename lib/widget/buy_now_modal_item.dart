@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:todak_app_task/model/order.dart';
+import 'package:todak_app_task/model/cart.dart';
 import 'package:todak_app_task/model/product.dart';
 import 'package:todak_app_task/screen/carts.dart';
 
-// final List<Order> _listOrders = [];
+// final List<Cart> _listCarts = [];
 
 class BuyNowModalItem extends StatefulWidget {
   const BuyNowModalItem({super.key, required this.product});
@@ -22,7 +22,7 @@ class _BuyNowModalItemState extends State<BuyNowModalItem> {
 
   void addCartProduct() {
     setState(() {
-      listOrders.add(Order(
+      listCarts.add(Cart(
         id: widget.product.id,
         title: widget.product.title,
         thumbnail: widget.product.thumbnail,

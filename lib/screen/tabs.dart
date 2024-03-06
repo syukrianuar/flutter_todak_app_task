@@ -81,9 +81,9 @@ class _TabsScreenState extends State<TabsScreen> {
       activePageTitle = 'Profile';
     }
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        // backgroundColor: Colors.black,
         title: Text(activePageTitle),
         actions: [
           IconButton(

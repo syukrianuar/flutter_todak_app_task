@@ -1,30 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:todak_app_task/model/order.dart';
+import 'package:todak_app_task/model/cart.dart';
 
 class CartLists extends StatelessWidget {
   const CartLists({
     super.key,
-    required this.orders,
+    required this.carts,
     // required this.onRemoveOrder
   });
 
-  final List<Order> orders;
+  final List<Cart> carts;
   // final void Function(Order order) onRemoveOrder;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: orders.length,
+        itemCount: carts.length,
         itemBuilder: (context, index) => Dismissible(
-            key: ValueKey(orders[index]),
+            key: ValueKey(carts[index]),
             background: Container(
               margin: Theme.of(context).cardTheme.margin,
               color: Theme.of(context).colorScheme.error.withOpacity(0.7),
             ),
             // onDismissed: (direction) {
-            //   onRemoveOrder(orders[index]);
+            //   onRemoveOrder(carts[index]);
             // },
             child:
                 // ExpenseItem(expense: expenses[index])
@@ -33,14 +33,14 @@ class CartLists extends StatelessWidget {
               child: Row(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: orders[index].thumbnail,
+                    imageUrl: carts[index].thumbnail,
                     fit: BoxFit.cover,
                     height: 10.h,
                     width: 10.h,
                   ),
-                  Text(orders[index].quantity.toString()),
+                  Text(carts[index].quantity.toString()),
                   Spacer(),
-                  Text('RM ${orders[index].calculatedPrice.toStringAsFixed(2)}')
+                  Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
                 ],
               ),
             )));
