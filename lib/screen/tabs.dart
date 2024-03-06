@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todak_app_task/screen/carts.dart';
 import 'package:todak_app_task/screen/home.dart';
 import 'package:todak_app_task/screen/orders.dart';
 import 'package:todak_app_task/screen/profiles.dart';
@@ -84,7 +85,14 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(activePageTitle),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.trolley))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (ctx) => CartsScreen()));
+              },
+              icon: Icon(Icons.trolley))
+        ],
       ),
       // drawer: MainDrawer(
       //   onSelectScreen: _setScreen,
