@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todak_app_task/model/product.dart';
+import 'package:todak_app_task/widget/buy_now_modal_item.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -9,36 +10,29 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _buyNowModal() {
+      showModalBottomSheet(
+          context: context,
+          builder: (ctx) => BuyNowModalItem(product: product));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         // onToggleFavorite(meal);
-        //         final wasAdded = ref
-        //             .read(favoriteMealsProvider.notifier)
-        //             .toggleMealFavoritesStatus(meal);
-        //         ScaffoldMessenger.of(context).clearSnackBars();
-        //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //             content: Text(wasAdded
-        //                 ? 'Meal is added to favorites!'
-        //                 : ' Meal has been removed from favorites.')));
-        //       },
-        //       icon:
-        //           //Implicit Animation
-        //           AnimatedSwitcher(
-        //         duration: Duration(milliseconds: 300),
-        //         transitionBuilder: (child, animation) => RotationTransition(
-        //           turns: Tween(begin: 0.7, end: 1.0).animate(animation),
-        //           child: child,
-        //         ),
-        //         child: Icon(
-        //           isFavorite ? Icons.star : Icons.star_border,
-        //           key: ValueKey(isFavorite),
-        //         ),
-        //       ))
-        // ],
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon:
+                  //Implicit Animation
+                  AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) => RotationTransition(
+                  turns: Tween(begin: 0.7, end: 1.0).animate(animation),
+                  child: child,
+                ),
+                child: Icon(Icons.trolley),
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -62,13 +56,13 @@ class ProductDetailsScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold),
             ),
-            // for (final ingredient in meal.ingredients)
-            //   Text(
-            //     ingredient,
-            //     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            //           color: Theme.of(context).colorScheme.onBackground,
-            //         ),
-            //   ),
+            // for (int i = 0; i < 100; i++)
+            Text(
+              product.description,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.background,
+                  ),
+            ),
             // const SizedBox(
             //   height: 24,
             // ),
@@ -93,6 +87,18 @@ class ProductDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            child: Text('Add to Cart')),
+        ElevatedButton(
+            onPressed: () {
+              _buyNowModal();
+            },
+            child: Text('Buy Now'))
+      ],
     );
   }
 }
