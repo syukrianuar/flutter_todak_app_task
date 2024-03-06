@@ -32,6 +32,7 @@ class _BuyNowModalItemState extends State<BuyNowModalItem> {
             ((100 - widget.product.discountPercent) / 100),
       ));
     });
+    Navigator.pop(context);
 
     Navigator.push(context, MaterialPageRoute(builder: (ctx) => CartsScreen()));
   }

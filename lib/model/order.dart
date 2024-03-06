@@ -16,20 +16,20 @@ class Order {
   // final double totalAmount;
 }
 
-// class OrderBucket {
-//   OrderBucket({required this.orders, });
+class OrderBucket {
+  OrderBucket({required this.orders, });
 
  
-//   final List<Order> orders;
+  final List<Order> orders;
  
 
-//   double get totalOrders {
-//     double sum = 0;
+  double get totalOrders {
+    double sum = 0;
 
-//     for (final order in orders) {
-//       sum += order.totalAmount;
-//     }
+    for (final order in orders) {
+      sum += order.calculatedPrice;
+    }
 
-//     return sum;
-//   }
-// }
+    return sum;
+  }
+}
