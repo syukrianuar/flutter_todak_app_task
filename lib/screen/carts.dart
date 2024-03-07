@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:todak_app_task/model/address.dart';
@@ -22,24 +23,67 @@ class _CartsScreenState extends State<CartsScreen> {
     double maxTotalCart = 0;
 
     for (final cart in listCarts) {
-      maxTotalCart += cart.calculatedPrice;
+      maxTotalCart += cart.product.price *
+          cart.quantity *
+          ((100 - cart.product.discountPercent) / 100);
     }
     return maxTotalCart;
   }
 
   @override
   Widget build(BuildContext context) {
+    var sum = 0.0;
     Widget mainContent = Center(
       child: Text(
           'No item in the cart for now. Please add item from the list first.'),
     );
 
     if (listCarts.isNotEmpty) {
-      mainContent = CartLists(
-        carts: listCarts,
-        // onRemoveOrder: ,
-        //   expenses: _registeredExpenses, onRemoveExpense: _removeExpense
+      mainContent = Expanded(
+        child: ListView.builder(
+            itemCount: listCarts.length,
+            itemBuilder: (context, index) {
+              var cart = listCarts[index];
+              var calcPrice = cart.quantity *
+                  cart.product.price *
+                  ((100 - cart.product.discountPercent) / 100);
+              sum = sum + calcPrice;
+              return Dismissible(
+                  key: ValueKey(listCarts[index]),
+                  background: Container(
+                    margin: Theme.of(context).cardTheme.margin,
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.7),
+                  ),
+                  // onDismissed: (direction) {
+                  //   onRemoveOrder(carts[index]);
+                  // },
+                  child:
+                      // ExpenseItem(expense: expenses[index])
+                      Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: listCarts[index].product.thumbnail,
+                          fit: BoxFit.cover,
+                          height: 10.h,
+                          width: 10.h,
+                        ),
+                        Text(listCarts[index].quantity.toString()),
+                        Spacer(),
+                        Text('RM ${calcPrice.toStringAsFixed(2)}')
+                        // Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
+                      ],
+                    ),
+                  ));
+            }),
       );
+
+      // CartLists(
+      //   carts: listCarts,
+      //   // onRemoveOrder: ,
+      //   //   expenses: _registeredExpenses, onRemoveExpense: _removeExpense
+      // );
     }
 
     return Scaffold(
@@ -81,7 +125,8 @@ class _CartsScreenState extends State<CartsScreen> {
               }
             },
           ),
-          mainContent,
+          mainContent
+          // Expanded(child: mainContent),
         ],
       ),
       persistentFooterButtons: [
