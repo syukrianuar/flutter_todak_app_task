@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:todak_app_task/screen/addresses.dart';
+import 'package:todak_app_task/util/get_sharedprefs.dart';
 
 class ProfilesScreen extends StatelessWidget {
   const ProfilesScreen({super.key});
@@ -71,7 +72,9 @@ class ProfilesScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () async {},
+                      onPressed: () async {
+                        SharedPrefsStorage().clearStorage();
+                      },
                       icon: Icon(Icons.logout),
                       label: Text(
                         'Log Out',
@@ -83,7 +86,6 @@ class ProfilesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              
               ],
             ),
           )
