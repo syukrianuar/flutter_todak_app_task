@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:todak_app_task/model/address.dart';
 import 'package:todak_app_task/model/cart.dart';
+import 'package:todak_app_task/repository/address_repository.dart';
+import 'package:todak_app_task/util/get_sharedprefs.dart';
 import 'package:todak_app_task/widget/cart_lists.dart';
 
 List<Cart> listCarts = [];
@@ -43,7 +46,44 @@ class _CartsScreenState extends State<CartsScreen> {
       appBar: AppBar(
         title: Text('Cart'),
       ),
-      body: mainContent,
+      body: Column(
+        children: [
+          FutureBuilder<Address?>(
+            future: AddressRepository().fetchSingleDefaultAddress(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                Address? defaultAddress = snapshot.data;
+                if (defaultAddress == null) {
+                  return Center(child: Text('No default address set'));
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Default Address:',
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(defaultAddress.contactName),
+                        subtitle: Text(
+                            '${defaultAddress.address}, ${defaultAddress.city}, ${defaultAddress.postcode}, ${defaultAddress.state}'),
+                        trailing: Icon(Icons.navigate_next)),
+                  ],
+                );
+              }
+            },
+          ),
+          mainContent,
+        ],
+      ),
       persistentFooterButtons: [
         Row(
           children: [

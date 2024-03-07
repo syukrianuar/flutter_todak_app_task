@@ -14,50 +14,76 @@ class AddressesScreen extends StatefulWidget {
   State<AddressesScreen> createState() => _AddressesScreenState();
 }
 
-class _AddressesScreenState extends State<AddressesScreen> {
-  List<Address> listAddresses = [];
+List<Address> listAddresses = [];
 
+class _AddressesScreenState extends State<AddressesScreen> {
   @override
   void initState() {
     super.initState();
-    loadAddress();
+    fetchAddressesWithDefault().then((value) {
+      setState(() {
+        listAddresses = value;
+      });
+    });
+    // loadAddress();
     // listAddresses;
     // print(listAddresses);
   }
 
-  void loadAddress() async {
-    final prefs = await SharedPreferences.getInstance();
-    final addressesJson = prefs.getString('addresses');
-    print("this is addressesJson : $addressesJson");
-    if (addressesJson != null) {
-      final addressesData = jsonDecode(addressesJson);
-      int index = 0;
-      listAddresses = addressesData
-          .map<Address>((addressData) => Address(
-              contactName: addressData['contact_name'],
-              address: addressData['address'],
-              city: addressData['city'],
-              postcode: addressData['postcode'],
-              state: addressData['state']))
-          .toList();
-      setState(() {
-        listAddresses;
-      });
+  Future<List<Address>> fetchAddressesWithDefault() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final addressList = prefs.getStringList('addresses');
+    if (addressList == null) {
+      return [];
     }
+    return addressList.map((json) => Address.fromJson(json)).toList();
   }
+
+  void setDefaultAddress(int index) {
+    setState(() {
+      for (var address in listAddresses) {
+        address.isDefault = false;
+      }
+      listAddresses[index].isDefault = true;
+    });
+    saveAddress();
+  }
+
+  // void loadAddress() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final addressesJson = prefs.getString('addresses');
+  //   print("this is addressesJson : $addressesJson");
+  //   if (addressesJson != null) {
+  //     final addressesData = jsonDecode(addressesJson);
+  //     int index = 0;
+  //     listAddresses = addressesData
+  //         .map<Address>((addressData) => Address(
+  //             contactName: addressData['contact_name'],
+  //             address: addressData['address'],
+  //             city: addressData['city'],
+  //             postcode: addressData['postcode'],
+  //             state: addressData['state']))
+  //         .toList();
+  //     setState(() {
+  //       listAddresses;
+  //     });
+  //   }
+  // }
 
   void saveAddress() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final addressesJson = json.encode(listAddresses
-        .map((address) => {
-              'contact_name': address.contactName,
-              'address': address.address,
-              'city': address.city,
-              'postcode': address.postcode,
-              'state': address.state,
-            })
-        .toList());
-    await prefs.setString('addresses', addressesJson);
+    // final addressesJson = json.encode(listAddresses
+    //     .map((address) => {
+    //           'contact_name': address.contactName,
+    //           'address': address.address,
+    //           'city': address.city,
+    //           'postcode': address.postcode,
+    //           'state': address.state,
+    //         })
+    //     .toList());
+    final List<String> addressesJson =
+        listAddresses.map((address) => address.toJson()).toList();
+    await prefs.setStringList('addresses', addressesJson);
   }
 
   void addAddress(Address address) {
@@ -81,7 +107,10 @@ class _AddressesScreenState extends State<AddressesScreen> {
     Widget mainContent = Text('Oops, no data.');
 
     if (listAddresses.isNotEmpty) {
-      mainContent = AddressLists(addresses: listAddresses);
+      mainContent = AddressLists(
+        addresses: listAddresses,
+        onSetDefaultAddress: setDefaultAddress,
+      );
     }
     return Scaffold(
       appBar: AppBar(
