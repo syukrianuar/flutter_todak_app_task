@@ -17,41 +17,32 @@ class CartLists extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: carts.length,
-        itemBuilder: (context, index) {
-          var cart = carts[index];
-          var calcPrice = cart.quantity *
-              cart.product.price *
-              ((100 - cart.product.discountPercent) / 100);
-          return Dismissible(
-              key: ValueKey(carts[index]),
-              background: Container(
-                margin: Theme.of(context).cardTheme.margin,
-                color: Theme.of(context).colorScheme.error.withOpacity(0.7),
+        itemBuilder: (context, index) => Dismissible(
+            key: ValueKey(carts[index]),
+            background: Container(
+              margin: Theme.of(context).cardTheme.margin,
+              color: Theme.of(context).colorScheme.error.withOpacity(0.7),
+            ),
+            // onDismissed: (direction) {
+            //   onRemoveOrder(carts[index]);
+            // },
+            child:
+                // ExpenseItem(expense: expenses[index])
+                Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: carts[index].thumbnail,
+                    fit: BoxFit.cover,
+                    height: 10.h,
+                    width: 10.h,
+                  ),
+                  Text(carts[index].quantity.toString()),
+                  Spacer(),
+                  Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
+                ],
               ),
-              // onDismissed: (direction) {
-              //   onRemoveOrder(carts[index]);
-              // },
-              child:
-                  // ExpenseItem(expense: expenses[index])
-                  Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: carts[index].product.thumbnail,
-                      fit: BoxFit.cover,
-                      height: 10.h,
-                      width: 10.h,
-                    ),
-                    Text(carts[index].quantity.toString()),
-                    Spacer(),
-                    Text(
-                        'RM ${calcPrice.toStringAsFixed(2)}')
-                    // Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
-                  ],
-                ),
-              ));
-        });
-  
+            )));
   }
 }

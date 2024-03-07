@@ -20,60 +20,18 @@ class _BuyNowModalItemState extends State<BuyNowModalItem> {
   final _formKey = GlobalKey<FormState>();
   var _enteredQuantity = 1;
 
-  void addCartProduct(Product product) {
-    var existingItem = listCarts.firstWhere(
-      (item) => item.product.id == product.id,
-      // orElse: () => null
-      orElse: () => Cart(
-          product: product,
-          // calculatedPrice: _enteredQuantity *
-          //     widget.product.price *
-          //     ((100 - widget.product.discountPercent) / 100)
-              ),
-    );
-
-    print('existing quantity :${existingItem.quantity}');
-
-    if (existingItem.quantity == 0) {
-      print('quantity = 0');
-      existingItem.quantity = _enteredQuantity;
-      //   existingItem.quantity;
-      // setState(() {
-      //   listCarts.add(Cart(
-      //     product: product,
-      //     quantity: existingItem.quantity,
-      //     // calculatedPrice: (existingItem.quantity) *
-      //     //     widget.product.price *
-      //     //     ((100 - widget.product.discountPercent) / 100),
-      //   ));
-      // });
-      // setState(() {
-      listCarts.add(existingItem);
-      //   // });
-    } else {
-      //   // existingItem.quantity++;
-      print('quantity bukan 0');
-      existingItem.quantity = existingItem.quantity + _enteredQuantity;
-      // setState(() {
-      //   listCarts.add(Cart(
-      //     product: product,
-      //     quantity: existingItem.quantity,
-      //     // calculatedPrice: (_enteredQuantity + existingItem.quantity) *
-      //     //     widget.product.price *
-      //     //     ((100 - widget.product.discountPercent) / 100),
-      //   ));
-      // });
-    }
-
-    // setState(() {
-    //   listCarts.add(Cart(
-    //     product: product,
-    //     quantity: _enteredQuantity,
-    //     calculatedPrice: _enteredQuantity *
-    //         widget.product.price *
-    //         ((100 - widget.product.discountPercent) / 100),
-    //   ));
-    // });
+  void addCartProduct() {
+    setState(() {
+      listCarts.add(Cart(
+        id: widget.product.id,
+        title: widget.product.title,
+        thumbnail: widget.product.thumbnail,
+        quantity: _enteredQuantity,
+        calculatedPrice: _enteredQuantity *
+            widget.product.price *
+            ((100 - widget.product.discountPercent) / 100),
+      ));
+    });
     Navigator.pop(context);
 
     Navigator.push(context, MaterialPageRoute(builder: (ctx) => CartsScreen()));
@@ -82,7 +40,7 @@ class _BuyNowModalItemState extends State<BuyNowModalItem> {
   void saveItem() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      addCartProduct(widget.product);
+      addCartProduct();
     }
   }
 
