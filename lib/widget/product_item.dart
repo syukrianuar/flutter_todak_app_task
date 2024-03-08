@@ -18,8 +18,8 @@ class ProductItem extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
-        width: 42.w,
-        height: 45.h,
+        // width: 42.w,
+        // height: 60.h,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -36,7 +36,7 @@ class ProductItem extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                height: 15.h,
+                // height: 50.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8),
@@ -51,40 +51,33 @@ class ProductItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DefaultTextStyle(
+                  Text(
+                    product.title,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 13.5.sp,
+                      fontSize: 15.sp,
                       // fontWeight: FontWeight.w500
-                    ),
-                    child: Text(
-                      product.title,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.zero,
                     padding: EdgeInsets.all(0.5.w),
-                    color: Colors.yellow,
-                    child: DefaultTextStyle(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(color: Colors.red)),
+                    child: Text(
+                      '${product.discountPercent} off',
                       style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14.5.sp,
-                        // fontWeight: FontWeight.w500
-                      ),
-                      child: Text(
-                        '${product.discountPercent} off',
-                      ),
+                          color: Colors.red,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                  DefaultTextStyle(
+                  Text(
+                    'RM ${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 14.5.sp,
-                      // fontWeight: FontWeight.w500
-                    ),
-                    child: Text(
-                      'RM ${product.price}',
-                    ),
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 15.5.sp,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

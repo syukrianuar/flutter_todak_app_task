@@ -14,11 +14,12 @@ class ProfilesScreen extends StatelessWidget {
         child: Column(children: [
           Align(
             child: CircleAvatar(
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
               radius: 80,
-              // backgroundImage: CachedNetworkImageProvider(
-              //   FlutterLogo,
-              // )
+              child: Icon(
+                Icons.person,
+                size: 50,
+              ),
             ),
           ),
           SizedBox(
@@ -37,26 +38,11 @@ class ProfilesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ProfileViewDetail(
-                //   pLabel: 'Identity Number',
-                //   pDesc: 'abc',
-                // ),
-                // // SizedBox(
-                // //   height: 1.h,
-                // // ),
-                // ProfileViewDetail(
-                //   pLabel: 'Email',
-                //   pDesc: 'def',
-                // ),
-
-                // ProfileViewDetail(pLabel: 'Mobile Number', pDesc: 'ghi'),
+                
 
                 ProfileViewDetail(pLabel: 'Address', pDesc: 'jkl'),
 
-                // ProfileViewDetail(pLabel: "City", pDesc: 'mno'),
-                // ProfileViewDetail(pLabel: 'Postcode', pDesc: 'pqr'),
-                // ProfileViewDetail(pLabel: 'State', pDesc: 'stu'),
-                // // ProfileEditForm(),
+               
 
                 SizedBox(
                   height: 20.h,
@@ -75,7 +61,10 @@ class ProfilesScreen extends StatelessWidget {
                       onPressed: () async {
                         SharedPrefsStorage().clearStorage();
                       },
-                      icon: Icon(Icons.logout),
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
                       label: Text(
                         'Log Out',
                         style: TextStyle(
@@ -178,10 +167,7 @@ class ProfileEditForm extends StatelessWidget {
             ),
           ),
           child: TextFormField(
-              // controller: phoneTextController,
-              // decoration: const InputDecoration(
-              //   //contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              // ),
+              
               ),
         ),
       ],

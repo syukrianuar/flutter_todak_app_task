@@ -1,8 +1,13 @@
+import 'package:todak_app_task/model/address.dart';
 import 'package:todak_app_task/model/cart.dart';
 
 class Order {
-  const Order({required this.id, required this.orders});
+  final List<Cart> items;
+  final String address;
+  final double totalAmount;
 
-  final String id;
-  final List<Cart> orders;
+  Order(
+      {required this.items, required this.address, required this.totalAmount});
 }
+
+

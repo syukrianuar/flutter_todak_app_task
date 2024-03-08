@@ -14,32 +14,7 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
 
-  //--> NO LONGER USE (NOW USING THE RIVERPOD STATE MANAGEMENT) <--
-  // final List<Meal> favoriteMeals = [];
-  // Map<Filter, bool> _selectedFilters = kInitialFilters;
-
-  //--> NO LONGER USE (NOW USING THE RIVERPOD STATE MANAGEMENT) <--
-  // void _toggleMealFavoriteStatus(Meal meal) {
-  //   final isExisting = favoriteMeals.contains(meal);
-
-  // void showSnackbarMessage(String message) {
-  //   ScaffoldMessenger.of(context).clearSnackBars();
-  //   ScaffoldMessenger.of(context)
-  //       .showSnackBar(SnackBar(content: Text(message)));
-  // }
-
-  //   if (isExisting) {
-  //     setState(() {
-  //       favoriteMeals.remove(meal);
-  //     });
-  //     showSnackbarMessage('Meal has been removed from favorites.');
-  //   } else {
-  //     setState(() {
-  //       favoriteMeals.add(meal);
-  //     });
-  //     showSnackbarMessage('Meal is added to favorites!');
-  //   }
-  // }
+  
 
   void _selectPage(int index) {
     setState(() {
@@ -47,27 +22,11 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  // void _setScreen(String identifier) async {
-  //   Navigator.pop(context);
-  //   if (identifier == 'filters') {
-  //     // Due to Riverpod
-  //     // final result =
-  //     await Navigator.push<Map<Filter, bool>>(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (ctx) => FiltersScreen(
-  //                 // currentFilters: _selectedFilters,
-  //                 )));
-  //     // Due to riverpod
-  //     // setState(() {
-  //     //   _selectedFilters = result ?? kInitialFilters;
-  //     // });
-  //   }
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
-    // final availableMeals = ref.watch(filteredMealsProvider);
+  
 
     Widget activePage = Home();
     var activePageTitle = 'TDK eShop';
@@ -94,9 +53,7 @@ class _TabsScreenState extends State<TabsScreen> {
               icon: Icon(Icons.trolley))
         ],
       ),
-      // drawer: MainDrawer(
-      //   onSelectScreen: _setScreen,
-      // ),
+      
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectPage,

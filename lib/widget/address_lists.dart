@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todak_app_task/model/address.dart';
-import 'package:todak_app_task/widget/address_item.dart';
 
 class AddressLists extends StatelessWidget {
   const AddressLists(
@@ -18,16 +17,16 @@ class AddressLists extends StatelessWidget {
           itemBuilder: (ctx, index) {
             var address = addresses[index];
             return ListTile(
-              title: Text(address.contactName),
-              subtitle: Text(
-                  '${address.address}, ${address.city}, ${address.postcode}, ${address.state}'),
-              trailing: Checkbox(
-                value: address.isDefault,
-                onChanged: (value) {
-                  onSetDefaultAddress(index);
-                },
-              ),
-            );
+                leading: Checkbox(
+                  value: address.isDefault,
+                  onChanged: (value) {
+                    onSetDefaultAddress(index);
+                  },
+                ),
+                title: Text(address.contactName),
+                subtitle: Text(
+                    '${address.address}, ${address.city}, ${address.postcode}, ${address.state}'),
+                trailing: Icon(Icons.edit));
           }),
     );
   }

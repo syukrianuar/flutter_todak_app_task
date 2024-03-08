@@ -17,6 +17,8 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   List<Product> _products = [];
+
+  var isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -31,27 +33,32 @@ class _ProductsScreenState extends State<ProductsScreen> {
   void _loadItems() async {
     final url = Uri.parse('https://dummyjson.com/products');
     final response = await http.get(url);
-    final List listData = json.decode(response.body)['products'];
-    final List<Product> loadedItems = listData
-        .map((item) => Product(
-            id: item['id'].toString(),
-            title: item['title'],
-            description: item['description'],
-            price: double.parse(item['price'].toString()),
-            discountPercent:
-                double.parse(item['discountPercentage'].toString()),
-            rating: double.tryParse(item['rating'].toString())!,
-            brand: item['brand'],
-            category: item['category'],
-            thumbnail: item['thumbnail'],
-            stock: item['stock']))
-        .toList();
+    try {
+      final List listData = json.decode(response.body)['products'];
+      if (response.statusCode == 200) {
+        final List<Product> loadedItems = listData
+            .map((item) => Product(
+                id: item['id'].toString(),
+                title: item['title'],
+                description: item['description'],
+                price: double.parse(item['price'].toString()),
+                discountPercent:
+                    double.parse(item['discountPercentage'].toString()),
+                rating: double.tryParse(item['rating'].toString())!,
+                brand: item['brand'],
+                category: item['category'],
+                thumbnail: item['thumbnail'],
+                stock: item['stock']))
+            .toList();
 
-    if (!mounted) return;
+        if (!mounted) return;
 
-    setState(() {
-      _products = loadedItems;
-    });
+        setState(() {
+          _products = loadedItems;
+          isLoading = false;
+        });
+      }
+    } catch (e) {}
   }
 
   void _selectProduct(BuildContext context, Product product) {
@@ -63,14 +70,21 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    Widget mainContent = GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 0.8,
           crossAxisCount: 2,
         ),
+        padding: EdgeInsets.symmetric(horizontal: 2.w),
         itemCount: _products.length,
         itemBuilder: (ctx, index) {
           return ProductItem(
               product: _products[index], onSelectProduct: _selectProduct);
         });
+
+    if (isLoading) {
+      mainContent = Center(child: CircularProgressIndicator());
+    }
+    return mainContent;
   }
 }

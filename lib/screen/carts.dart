@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:todak_app_task/model/address.dart';
 import 'package:todak_app_task/model/cart.dart';
+import 'package:todak_app_task/model/order.dart';
 import 'package:todak_app_task/repository/address_repository.dart';
+import 'package:todak_app_task/screen/addresses.dart';
 import 'package:todak_app_task/util/get_sharedprefs.dart';
 import 'package:todak_app_task/widget/cart_lists.dart';
+import 'package:todak_app_task/widget/empty_state.dart';
 
 List<Cart> listCarts = [];
 
@@ -19,6 +22,8 @@ class CartsScreen extends StatefulWidget {
 class _CartsScreenState extends State<CartsScreen> {
   // List<OrderBucket> buckets = [];
 
+  String fullDefaultAddress = '';
+
   double get maxTotalCarts {
     double maxTotalCart = 0;
 
@@ -30,68 +35,50 @@ class _CartsScreenState extends State<CartsScreen> {
     return maxTotalCart;
   }
 
+  checkout() {
+    double totalAmount = maxTotalCarts;
+
+    Order order = Order(
+        items: List.from(listCarts),
+        totalAmount: totalAmount,
+        address: fullDefaultAddress);
+    
+    listCarts.clear();
+    return order;
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
     var sum = 0.0;
     Widget mainContent = Center(
-      child: Text(
-          'No item in the cart for now. Please add item from the list first.'),
+      child: EmptyStateScreen(
+        animationUrl: 'assets/empty_new.json',
+        caption:
+            'No item in the cart for now. Please add item from the list first.',
+      ),
     );
 
     if (listCarts.isNotEmpty) {
-      mainContent = Expanded(
-        child: ListView.builder(
-            itemCount: listCarts.length,
-            itemBuilder: (context, index) {
-              var cart = listCarts[index];
-              var calcPrice = cart.quantity *
-                  cart.product.price *
-                  ((100 - cart.product.discountPercent) / 100);
-              sum = sum + calcPrice;
-              return Dismissible(
-                  key: ValueKey(listCarts[index]),
-                  background: Container(
-                    margin: Theme.of(context).cardTheme.margin,
-                    color: Theme.of(context).colorScheme.error.withOpacity(0.7),
-                  ),
-                  // onDismissed: (direction) {
-                  //   onRemoveOrder(carts[index]);
-                  // },
-                  child:
-                      // ExpenseItem(expense: expenses[index])
-                      Container(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: listCarts[index].product.thumbnail,
-                          fit: BoxFit.cover,
-                          height: 10.h,
-                          width: 10.h,
-                        ),
-                        Text(listCarts[index].quantity.toString()),
-                        Spacer(),
-                        Text('RM ${calcPrice.toStringAsFixed(2)}')
-                        // Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
-                      ],
-                    ),
-                  ));
-            }),
+      mainContent = CartLists(
+        carts: listCarts,
+        // onRemoveOrder: ,
+        //   expenses: _registeredExpenses, onRemoveExpense: _removeExpense
       );
-
-      // CartLists(
-      //   carts: listCarts,
-      //   // onRemoveOrder: ,
-      //   //   expenses: _registeredExpenses, onRemoveExpense: _removeExpense
-      // );
+      
     }
 
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: Text('Cart'),
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 1.h,
+          ),
           FutureBuilder<Address?>(
             future: AddressRepository().fetchSingleDefaultAddress(),
             builder: (context, snapshot) {
@@ -101,31 +88,51 @@ class _CartsScreenState extends State<CartsScreen> {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
                 Address? defaultAddress = snapshot.data;
+
                 if (defaultAddress == null) {
                   return Center(child: Text('No default address set'));
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Default Address:',
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
+                fullDefaultAddress =
+                    '${defaultAddress.address}, ${defaultAddress.city}, ${defaultAddress.postcode}, ${defaultAddress.state}';
+                return Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Default Address:',
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(defaultAddress.contactName),
-                        subtitle: Text(
-                            '${defaultAddress.address}, ${defaultAddress.city}, ${defaultAddress.postcode}, ${defaultAddress.state}'),
-                        trailing: Icon(Icons.navigate_next)),
-                  ],
+                      ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => AddressesScreen()))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(defaultAddress.contactName),
+                          subtitle: Text(
+                              '${defaultAddress.address}, ${defaultAddress.city}, ${defaultAddress.postcode}, ${defaultAddress.state}'),
+                          trailing: Icon(Icons.navigate_next)),
+                    ],
+                  ),
                 );
               }
             },
           ),
-          mainContent
+
+          SizedBox(
+            height: 1.h,
+          ),
+          Expanded(child: mainContent)
           // Expanded(child: mainContent),
         ],
       ),
@@ -135,10 +142,23 @@ class _CartsScreenState extends State<CartsScreen> {
             Text('Total : '),
             Text(
               'RM ${maxTotalCarts.toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 17, color: Colors.blue),
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold),
             ),
             Spacer(),
-            ElevatedButton(onPressed: () {}, child: Text('Check Out'))
+            ElevatedButton(
+                onPressed: checkout,
+                style: ElevatedButton.styleFrom(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.5.h),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.onBackground),
+                child: Text(
+                  'Check Out',
+                  style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                ))
           ],
         ),
         // SizedBox(

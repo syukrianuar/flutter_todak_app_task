@@ -22,20 +22,7 @@ class _NewAddressState extends State<NewAddress> {
   var _enteredPostcode = 1;
   var _enteredState = '';
 
-//   void saveAddress() async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   final addressesJson = json.encode(widget.addresses
-//         .map((todo) => {
-//               'contact_name': todo.contactName,
-//               'address': todo.address,
-//               'city': todo.city,
-//               'postcode': todo.postcode,
-//               'state': todo.state,
-           
-//             })
-//         .toList());
-//     await prefs.setString('todos', todosJson);
-// }
+
 
   void submitAddress() {
     // final enteredPostcode = int.tryParse(_enteredPostcode);
@@ -106,7 +93,7 @@ class _NewAddressState extends State<NewAddress> {
                   height: 0.5.h,
                 ),
                 TextFormField(
-                  // controller: _nameController,
+                  
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -137,7 +124,7 @@ class _NewAddressState extends State<NewAddress> {
                   height: 0.5.h,
                 ),
                 TextFormField(
-                  // controller: _nameController,
+                 
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

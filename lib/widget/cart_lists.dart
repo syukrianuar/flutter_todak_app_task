@@ -34,24 +34,47 @@ class CartLists extends StatelessWidget {
               child:
                   // ExpenseItem(expense: expenses[index])
                   Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
+                color: Colors.white,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: carts[index].product.thumbnail,
-                      fit: BoxFit.cover,
+                    Container(
                       height: 10.h,
                       width: 10.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              width: 0.3,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          image: DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                  carts[index].product.thumbnail),
+                              fit: BoxFit.cover)),
                     ),
-                    Text(carts[index].quantity.toString()),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(carts[index].product.title.toString()),
+                          Text('x ${carts[index].quantity.toString()}'),
+                        ],
+                      ),
+                    ),
                     Spacer(),
                     Text(
-                        'RM ${calcPrice.toStringAsFixed(2)}')
+                      'RM ${calcPrice.toStringAsFixed(2)}',
+                    )
                     // Text('RM ${carts[index].calculatedPrice.toStringAsFixed(2)}')
                   ],
                 ),
               ));
         });
-  
   }
 }

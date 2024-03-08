@@ -25,9 +25,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
         listAddresses = value;
       });
     });
-    // loadAddress();
-    // listAddresses;
-    // print(listAddresses);
+  
   }
 
   Future<List<Address>> fetchAddressesWithDefault() async {
@@ -49,38 +47,11 @@ class _AddressesScreenState extends State<AddressesScreen> {
     saveAddress();
   }
 
-  // void loadAddress() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final addressesJson = prefs.getString('addresses');
-  //   print("this is addressesJson : $addressesJson");
-  //   if (addressesJson != null) {
-  //     final addressesData = jsonDecode(addressesJson);
-  //     int index = 0;
-  //     listAddresses = addressesData
-  //         .map<Address>((addressData) => Address(
-  //             contactName: addressData['contact_name'],
-  //             address: addressData['address'],
-  //             city: addressData['city'],
-  //             postcode: addressData['postcode'],
-  //             state: addressData['state']))
-  //         .toList();
-  //     setState(() {
-  //       listAddresses;
-  //     });
-  //   }
-  // }
+
 
   void saveAddress() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final addressesJson = json.encode(listAddresses
-    //     .map((address) => {
-    //           'contact_name': address.contactName,
-    //           'address': address.address,
-    //           'city': address.city,
-    //           'postcode': address.postcode,
-    //           'state': address.state,
-    //         })
-    //     .toList());
+
     final List<String> addressesJson =
         listAddresses.map((address) => address.toJson()).toList();
     await prefs.setStringList('addresses', addressesJson);

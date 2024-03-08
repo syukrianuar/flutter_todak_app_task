@@ -1,3 +1,4 @@
+import 'package:todak_app_task/model/address.dart';
 import 'package:todak_app_task/model/product.dart';
 
 class Cart {
@@ -16,8 +17,11 @@ class Cart {
   // final String thumbnail;
   final Product product;
   int quantity;
+  Address? defaultAddress;
   final double calculatedPrice;
   // final double totalAmount;
+
+ 
 }
 
 class CartBucket {
@@ -37,4 +41,5 @@ class CartBucket {
 
     return sum;
   }
+  
 }
