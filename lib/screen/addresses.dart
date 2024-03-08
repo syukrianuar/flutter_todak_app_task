@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todak_app_task/model/address.dart';
-import 'package:todak_app_task/widget/address_item.dart';
 import 'package:todak_app_task/widget/address_lists.dart';
 import 'package:todak_app_task/widget/new_address.dart';
 
